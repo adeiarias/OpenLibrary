@@ -1,12 +1,19 @@
 package ehu.isad.controllers;
 
+import ehu.isad.Liburua;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
-public class XehetasunakKud {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class XehetasunakKud implements Initializable {
+
+    private Liburua mainApp;
 
     @FXML
     private Label lblIzenburu;
@@ -35,9 +42,17 @@ public class XehetasunakKud {
     @FXML
     private Button buttonAtzera;
 
-    @FXML
-    public void onClick(ActionEvent event) {
-
+    public void setMainApp(Liburua main) {
+        this.mainApp = main;
     }
 
+    @FXML
+    public void onClick(ActionEvent event) {
+        mainApp.ComboBoxErakutsi();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
 }

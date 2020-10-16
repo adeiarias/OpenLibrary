@@ -25,7 +25,7 @@ public class Liburua extends Application {
         stage = primaryStage;
         pantailakKargatu();
         stage.setTitle("OpenLibrary");
-        stage.setScene(new Scene(xehetasunakUI, 500, 400));
+        stage.setScene(new Scene(liburuakUI, 500, 400));
         stage.show();
     }
 

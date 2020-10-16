@@ -1,5 +1,6 @@
 package ehu.isad.controllers;
 
+import ehu.isad.Book;
 import ehu.isad.Liburua;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,6 +50,10 @@ public class XehetasunakKud implements Initializable {
     @FXML
     public void onClick(ActionEvent event) {
         mainApp.ComboBoxErakutsi();
+    }
+
+    public void labelakEguneratu(Book book){
+        
     }
 
     @Override

@@ -53,7 +53,7 @@ public class XehetasunakKud implements Initializable {
 
     @FXML
     public void onClick(ActionEvent event) {
-        mainApp.ComboBoxErakutsi();
+        mainApp.liburuakErakutsi();
     }
 
     private void labelakEguneratu(Book book) throws IOException {

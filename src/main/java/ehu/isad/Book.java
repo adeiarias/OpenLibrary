@@ -1,6 +1,7 @@
 package ehu.isad;
 
 public class Book {
+
     String isbn;
     String title;
     String info_url;
@@ -27,7 +28,5 @@ public class Book {
         return details;
     }
 
-    public String getIsbn() {
-        return isbn;
-    }
+    public String getIsbn() { return isbn; }
 }

@@ -2,7 +2,6 @@ package ehu.isad.controllers;
 
 import ehu.isad.Book;
 import ehu.isad.Liburua;
-import ehu.isad.utils.Sarea;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,7 +35,7 @@ public class LiburuakKud implements Initializable {
     @FXML
     public void onClick(ActionEvent event) throws IOException {
         Book book = (Book)comboHautatu.getValue();
-        mainApp.XehetasunakErakutsi(book);
+        mainApp.xehetasunakErakutsi(book);
     }
 
     @Override

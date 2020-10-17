@@ -3,9 +3,10 @@ package ehu.isad;
 import java.util.Arrays;
 
 public class Details {
-    private String title;
-    private String number_of_pages;
-    private String[] publishers;
+
+    String title;
+    String number_of_pages;
+    String[] publishers;
 
     @Override
     public String toString() {
@@ -27,6 +28,5 @@ public class Details {
     public String[] getPublishers() {
         return publishers;
     }
-
 
 }

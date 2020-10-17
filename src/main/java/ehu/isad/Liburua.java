@@ -47,12 +47,12 @@ public class Liburua extends Application {
         Application.launch(args);
     }
 
-    public void ComboBoxErakutsi() {
+    public void liburuakErakutsi() {
         stage.setScene(liburuak);
         stage.show();
     }
 
-    public void XehetasunakErakutsi(Book book) throws IOException {
+    public void xehetasunakErakutsi(Book book) throws IOException {
         xeheKud.datuakErakutsi(book);
         stage.setScene(xehetasunak);
         stage.show();

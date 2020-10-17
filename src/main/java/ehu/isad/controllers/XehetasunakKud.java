@@ -60,9 +60,11 @@ public class XehetasunakKud implements Initializable {
         String izen = book.getDetails().getTitle();
         String orri= book.getDetails().getNumber_of_pages();
         String[] argita = book.getDetails().getPublishers();
+
         izenburua.setText(izen);
         orriKop.setText(orri);
         argitaletxeakEguneratu(argita);
+
         Image irudi = sarea.createImage(book.getThumbnail_url());
         irudia.setImage(irudi);
     }

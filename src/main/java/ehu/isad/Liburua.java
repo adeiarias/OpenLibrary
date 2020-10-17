@@ -17,13 +17,14 @@ public class Liburua extends Application {
     private Stage stage;
     private LiburuakKud libKud;
     private XehetasunakKud xeheKud;
+    private Scene liburuak,xehetasunak;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         pantailakKargatu();
         stage.setTitle("OpenLibrary");
-        stage.setScene(new Scene(liburuakUI, 500, 400));
+        stage.setScene(liburuak);
         stage.show();
     }
 
@@ -33,11 +34,13 @@ public class Liburua extends Application {
         liburuakUI = (Parent) loaderLiburu.load();
         libKud = loaderLiburu.getController();
         libKud.setMainApp(this);
+        liburuak = new Scene(liburuakUI,500,400);
 
         FXMLLoader loaderXehetasunak = new FXMLLoader(getClass().getResource("/Xehetasunak.fxml"));
         xehetasunakUI = (Parent) loaderXehetasunak.load();
         xeheKud = loaderXehetasunak.getController();
         xeheKud.setMainApp(this);
+        xehetasunak = new Scene(xehetasunakUI,600,400);
     }
 
     public static void main(String[] args) {
@@ -45,13 +48,13 @@ public class Liburua extends Application {
     }
 
     public void ComboBoxErakutsi() {
-        stage.setScene(new Scene(liburuakUI,500,400));
+        stage.setScene(liburuak);
         stage.show();
     }
 
     public void XehetasunakErakutsi(Book book) throws IOException {
         xeheKud.datuakErakutsi(book);
-        stage.setScene(new Scene(xehetasunakUI,600,400));
+        stage.setScene(xehetasunak);
         stage.show();
     }
 }

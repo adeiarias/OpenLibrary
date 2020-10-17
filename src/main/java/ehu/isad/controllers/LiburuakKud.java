@@ -19,8 +19,6 @@ import java.util.ResourceBundle;
 public class LiburuakKud implements Initializable {
 
     private Liburua mainApp;
-    private Sarea sarea;
-    private XehetasunakKud xehetasunak;
 
     @FXML
     private Label lbl1;
@@ -37,17 +35,12 @@ public class LiburuakKud implements Initializable {
 
     @FXML
     public void onClick(ActionEvent event) throws IOException {
-        String izneburua = comboHautatu.getValue().toString();
-        String ISBN = "9781491920497";
-        Book book = sarea.liburuarenDatuakHasieratu(ISBN);
-        xehetasunak.labelakEguneratu(book);
-        mainApp.XehetasunakErakutsi();
+        Book book = (Book)comboHautatu.getValue();
+        mainApp.XehetasunakErakutsi(book);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        sarea = new Sarea();
-        xehetasunak = new XehetasunakKud();
         ObservableList<Book> liburuak = FXCollections.observableArrayList();
         liburuak.addAll(
                 new Book("Blockchain: Blueprint for a New Economy","9781491920497"),
@@ -57,5 +50,6 @@ public class LiburuakKud implements Initializable {
                 new Book("Data Algorithms","9781491906187")
         );
         comboHautatu.setItems(liburuak);
+        comboHautatu.setEditable(false);
     }
 }

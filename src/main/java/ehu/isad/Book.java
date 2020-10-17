@@ -18,4 +18,16 @@ public class Book {
     public String toString() {
         return title;
     }
+
+    public String getThumbnail_url() {
+        return thumbnail_url;
+    }
+
+    public Details getDetails() {
+        return details;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
 }

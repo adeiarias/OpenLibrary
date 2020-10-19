@@ -1,4 +1,4 @@
-package ehu.isad.controllers;
+package ehu.isad.ui;
 
 import ehu.isad.Book;
 import ehu.isad.Liburua;

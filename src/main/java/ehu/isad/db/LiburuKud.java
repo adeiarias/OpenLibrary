@@ -58,18 +58,17 @@ public class LiburuKud {
 
     public void liburuarenDatuSartuDB(Book b,String isbn){
         liburuarenDatuakEguneratu(b,isbn);
-        argitaletxeaSartu(b);
+        argitaletxeaSartu(b,isbn);
     }
 
     private void liburuarenDatuakEguneratu(Book b, String isbn){
         String query = "update Liburua set orriKop ="+b.getDetails().getNumber_of_pages()+" where ISBN = '"+isbn+"'";
-        System.out.println(query);
         DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
         ResultSet rs = dbKudeatzaile.execSQL(query);
     }
 
     private boolean argialetxeaDago(String izena){
-        String query = "select count(*) from Argitaletxea where izena = '"+izena+"'";
+        String query = "select count(*) from Argitaletxea where izena = \""+izena+"\"";
         DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
         ResultSet rs = dbKudeatzaile.execSQL(query);
         int count = 0;
@@ -87,23 +86,23 @@ public class LiburuKud {
         }
     }
 
-    private void argitaletxeaSartu(Book b){
+    private void argitaletxeaSartu(Book b,String isbn){
         int zenbat = b.getDetails().getPublishers().length;
         String argita[] = b.getDetails().getPublishers();
         int i = 0;
         while(i < zenbat){
-            /*if(!argialetxeaDago(argita[i])){
-                String query = "insert into Argitaletxea values('"+argita[i]+"')";
+            if(!argialetxeaDago(argita[i])){
+                String query = "insert into Argitaletxea values(\""+argita[i]+"\")";
                 DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
                 ResultSet rs = dbKudeatzaile.execSQL(query);
-            }*/
-           // liburuArgitaErlazioa(b.getIsbn(),argita[i]);
+            }
+            liburuArgitaErlazioa(isbn,argita[i]);
             i++;
         }
     }
 
     private void liburuArgitaErlazioa(String ISBN,String izena){
-        String query = "Insert into Eduki values('"+ISBN+"','"+izena+"')";
+        String query = "Insert into Eduki values('"+ISBN+"',\""+izena+"\")";
         DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
         ResultSet rs = dbKudeatzaile.execSQL(query);
     }
@@ -119,6 +118,22 @@ public class LiburuKud {
                 int orriKop = rs.getInt("orriKop");
                 lista.add(izena);
                 lista.add(Integer.toString(orriKop));
+            }
+        } catch(SQLException throwables){
+            throwables.printStackTrace();
+        }
+        return lista;
+    }
+
+    public List argitaletxeenZerrenda(String isbn){
+        String query = "select izena from Eduki where ISBN = '"+isbn+"'";
+        DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
+        ResultSet rs = dbKudeatzaile.execSQL(query);
+        List<String> lista = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                String izena = rs.getString("izena");
+                lista.add(izena);
             }
         } catch(SQLException throwables){
             throwables.printStackTrace();

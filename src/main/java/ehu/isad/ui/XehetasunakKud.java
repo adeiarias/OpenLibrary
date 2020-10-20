@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -69,14 +70,13 @@ public class XehetasunakKud implements Initializable {
         irudia.setImage(irudi);*/
     }
 
-    private void argitaletxeakEguneratu(String[] argitaletxeZerr){
-        String[] argitaletxe = argitaletxeZerr;
+    private void argitaletxeakEguneratu(List<String> argitaletxeZerr){
         String argi = null;
-        for(int i = 0; i < argitaletxe.length; i++){
+        for(int i = 0; i < argitaletxeZerr.size(); i++){
             if(argi == null){
-                argi = argitaletxe[i];
+                argi = argitaletxeZerr.get(i);
             }else{
-                argi = argi +", "+argitaletxe[i];
+                argi = argi +", "+argitaletxeZerr.get(i);
             }
         }
         argitaletxea.setText(argi);
@@ -88,6 +88,7 @@ public class XehetasunakKud implements Initializable {
             LiburuKud.getInstance().liburuarenDatuSartuDB(lib, liburua.getIsbn());
         }
         labelakEguneratu(LiburuKud.getInstance().liburuenDatuenListaLortu(liburua.getIsbn()));
+        argitaletxeakEguneratu(LiburuKud.getInstance().argitaletxeenZerrenda(liburua.getIsbn()));
     }
 
 

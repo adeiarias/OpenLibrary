@@ -2,6 +2,7 @@ package ehu.isad.ui;
 
 import ehu.isad.Book;
 import ehu.isad.Liburua;
+import ehu.isad.db.LiburuKud;
 import ehu.isad.utils.Sarea;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -65,8 +66,9 @@ public class XehetasunakKud implements Initializable {
         orriKop.setText(orri);
         argitaletxeakEguneratu(argita);
 
-        Image irudi = sarea.createImage(book.getThumbnail_url());
-        irudia.setImage(irudi);
+        //LIBUAREN IRUDIAREN INPLEMENTAZIOA GERARAKO UTZIKO DA
+        /*Image irudi = sarea.createImage(book.getThumbnail_url());
+        irudia.setImage(irudi);*/
     }
 
     private void argitaletxeakEguneratu(String[] argitaletxeZerr){
@@ -83,8 +85,11 @@ public class XehetasunakKud implements Initializable {
     }
 
     public void datuakErakutsi(Book liburua) throws IOException {
-        Book book = sarea.liburuarenDatuakHasieratu(liburua.getIsbn());
-        labelakEguneratu(book);
+        if(!LiburuKud.getInstance().liburuaDago(liburua.getIsbn())) {//Liburua datu basean ez dago
+            Book lib = Sarea.getNireSarea().liburuarenDatuakHasieratu(liburua.getIsbn());
+            LiburuKud.getInstance().liburuarenDatuSartuDB(lib, liburua.getIsbn());
+        }
+
     }
 
     @Override

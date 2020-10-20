@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class XehetasunakKud implements Initializable {
@@ -57,14 +58,11 @@ public class XehetasunakKud implements Initializable {
         mainApp.liburuakErakutsi();
     }
 
-    private void labelakEguneratu(Book book) throws IOException {
-        String izen = book.getDetails().getTitle();
-        String orri= book.getDetails().getNumber_of_pages();
-        String[] argita = book.getDetails().getPublishers();
-
+    private void labelakEguneratu(List<String> lista) throws IOException {
+        String izen = lista.get(0);
+        String orri= lista.get(1);
         izenburua.setText(izen);
         orriKop.setText(orri);
-        argitaletxeakEguneratu(argita);
 
         //LIBUAREN IRUDIAREN INPLEMENTAZIOA GERARAKO UTZIKO DA
         /*Image irudi = sarea.createImage(book.getThumbnail_url());
@@ -89,8 +87,9 @@ public class XehetasunakKud implements Initializable {
             Book lib = Sarea.getNireSarea().liburuarenDatuakHasieratu(liburua.getIsbn());
             LiburuKud.getInstance().liburuarenDatuSartuDB(lib, liburua.getIsbn());
         }
-
+        labelakEguneratu(LiburuKud.getInstance().liburuenDatuenListaLortu(liburua.getIsbn()));
     }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

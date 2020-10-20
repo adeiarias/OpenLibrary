@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LiburuKud {
 
@@ -104,6 +106,24 @@ public class LiburuKud {
         String query = "Insert into Eduki values('"+ISBN+"','"+izena+"')";
         DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
         ResultSet rs = dbKudeatzaile.execSQL(query);
+    }
+
+    public List liburuenDatuenListaLortu(String isbn){
+        String query = "select izena,orriKop from Liburua where ISBN ='"+isbn+"'";
+        DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
+        ResultSet rs = dbKudeatzaile.execSQL(query);
+        List<String> lista = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                String izena = rs.getString("izena");
+                int orriKop = rs.getInt("orriKop");
+                lista.add(izena);
+                lista.add(Integer.toString(orriKop));
+            }
+        } catch(SQLException throwables){
+            throwables.printStackTrace();
+        }
+        return lista;
     }
 
 }

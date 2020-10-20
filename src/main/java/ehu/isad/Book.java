@@ -10,7 +10,7 @@ public class Book {
     String thumbnail_url;
     Details details;
 
-    public Book(String izenburua, String ISBN){
+    public Book(String ISBN, String izenburua){
         isbn = ISBN;
         title = izenburua;
     }

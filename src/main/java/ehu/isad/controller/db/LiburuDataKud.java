@@ -77,7 +77,6 @@ public class LiburuDataKud {
     }
 
     private void liburuarenDatuakEguneratu(Book b, String isbn){
-        String a = "sdsd";
         String query = "update Liburua set orriKop ="+b.getDetails().getNumber_of_pages()+", irudiIzena = '"+isbn+".png' where ISBN = '"+isbn+"'";
         DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
         ResultSet rs = dbKudeatzaile.execSQL(query);
@@ -117,18 +116,19 @@ public class LiburuDataKud {
         }
     }
 
+    //metodo hau argitaletxe eta liburuaren arteko erlazioaren taula izango da
     private void liburuArgitaErlazioa(String ISBN,String izena){
         String query = "Insert into Eduki values('"+ISBN+"',\""+izena+"\")";
         DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
         ResultSet rs = dbKudeatzaile.execSQL(query);
     }
 
-    public void irudiaSartu(String url, String isbn) throws IOException {
+    private void irudiaSartu(String url, String isbn) throws IOException {
         BufferedImage irudia = ImageIO.read(new URL(url));
         String path = isbn+".png";
         Properties properties = Utils.lortuEzarpenak();
         String imagePath = properties.getProperty("imagePath");
-        Files.createDirectories(Paths.get(imagePath));
+        Files.createDirectories(Paths.get(imagePath));//setup.propertien jarri dugun karpeta sortuko dugu
         File file = new File(imagePath+"/"+path);
         ImageIO.write(irudia,"png",file);
     }

@@ -68,7 +68,6 @@ public class XehetasunakKud implements Initializable {
         orriKop.setText(orri);
 
         String irudiIzen = lista.get(2);
-        System.out.println(irudiIzen);
         String imagePath = Utils.lortuEzarpenak().getProperty("imagePath")+"/"+irudiIzen;
         try {
             irudia.setImage(new Image(new FileInputStream(imagePath)));
@@ -94,7 +93,6 @@ public class XehetasunakKud implements Initializable {
             Book lib = Sarea.getNireSarea().liburuarenDatuakHasieratu(liburua.getIsbn());
             LiburuDataKud.getInstance().liburuarenDatuSartuDB(lib, liburua.getIsbn());
         }
-
         labelakEguneratu(LiburuDataKud.getInstance().liburuenDatuenListaLortu(liburua.getIsbn()));
         argitaletxeakEguneratu(LiburuDataKud.getInstance().argitaletxeenZerrenda(liburua.getIsbn()));
     }

@@ -1,9 +1,8 @@
-package ehu.isad.ui;
+package ehu.isad.controller.ui;
 
 import ehu.isad.Book;
 import ehu.isad.Liburua;
-import ehu.isad.db.LiburuKud;
-import javafx.collections.FXCollections;
+import ehu.isad.controller.db.LiburuDataKud;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +13,6 @@ import javafx.scene.control.Label;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ListResourceBundle;
 import java.util.ResourceBundle;
 
 public class LiburuakKud implements Initializable {
@@ -42,7 +40,7 @@ public class LiburuakKud implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ObservableList<Book> liburuak = LiburuKud.getInstance().liburuenListaBete();
+        ObservableList<Book> liburuak = LiburuDataKud.getInstance().liburuenListaBete();
         comboHautatu.setItems(liburuak);
         comboHautatu.setEditable(false);
     }

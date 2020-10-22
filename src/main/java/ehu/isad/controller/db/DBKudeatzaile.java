@@ -1,4 +1,4 @@
-package ehu.isad.db;
+package ehu.isad.controller.db;
 
 import ehu.isad.utils.Utils;
 

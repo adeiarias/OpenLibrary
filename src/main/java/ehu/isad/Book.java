@@ -29,4 +29,8 @@ public class Book {
     }
 
     public String getIsbn() { return isbn; }
+
+    public void setDetails(Details det){
+        details = det;
+    }
 }

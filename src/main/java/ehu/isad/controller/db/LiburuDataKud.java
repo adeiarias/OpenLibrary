@@ -1,23 +1,34 @@
-package ehu.isad.db;
+package ehu.isad.controller.db;
 
 import ehu.isad.Book;
+import ehu.isad.utils.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
-public class LiburuKud {
+public class LiburuDataKud {
 
-    private static final LiburuKud instance = new LiburuKud();
+    private static final LiburuDataKud instance = new LiburuDataKud();
 
-    public static LiburuKud getInstance() {
+    public static LiburuDataKud getInstance() {
         return instance;
     }
 
-    private LiburuKud() {
+    private LiburuDataKud() {
     }
 
     public ObservableList liburuenListaBete(){
@@ -56,15 +67,35 @@ public class LiburuKud {
         }
     }
 
-    public void liburuarenDatuSartuDB(Book b,String isbn){
+
+
+
+    public void liburuarenDatuSartuDB(Book b, String isbn) throws IOException {
         liburuarenDatuakEguneratu(b,isbn);
         argitaletxeaSartu(b,isbn);
+        irudiaSartu(b.getThumbnail_url().replace("-S.","-M."),isbn);
     }
 
     private void liburuarenDatuakEguneratu(Book b, String isbn){
-        String query = "update Liburua set orriKop ="+b.getDetails().getNumber_of_pages()+" where ISBN = '"+isbn+"'";
+        String a = "sdsd";
+        String query = "update Liburua set orriKop ="+b.getDetails().getNumber_of_pages()+", irudiIzena = '"+isbn+".png' where ISBN = '"+isbn+"'";
         DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
         ResultSet rs = dbKudeatzaile.execSQL(query);
+    }
+
+    private void argitaletxeaSartu(Book b,String isbn){
+        int zenbat = b.getDetails().getPublishers().length;
+        String argita[] = b.getDetails().getPublishers();
+        int i = 0;
+        while(i < zenbat){
+            if(!argialetxeaDago(argita[i])){
+                String query = "insert into Argitaletxea values(\""+argita[i]+"\")";
+                DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
+                ResultSet rs = dbKudeatzaile.execSQL(query);
+            }
+            liburuArgitaErlazioa(isbn,argita[i]);
+            i++;
+        }
     }
 
     private boolean argialetxeaDago(String izena){
@@ -86,29 +117,27 @@ public class LiburuKud {
         }
     }
 
-    private void argitaletxeaSartu(Book b,String isbn){
-        int zenbat = b.getDetails().getPublishers().length;
-        String argita[] = b.getDetails().getPublishers();
-        int i = 0;
-        while(i < zenbat){
-            if(!argialetxeaDago(argita[i])){
-                String query = "insert into Argitaletxea values(\""+argita[i]+"\")";
-                DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
-                ResultSet rs = dbKudeatzaile.execSQL(query);
-            }
-            liburuArgitaErlazioa(isbn,argita[i]);
-            i++;
-        }
-    }
-
     private void liburuArgitaErlazioa(String ISBN,String izena){
         String query = "Insert into Eduki values('"+ISBN+"',\""+izena+"\")";
         DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
         ResultSet rs = dbKudeatzaile.execSQL(query);
     }
 
+    public void irudiaSartu(String url, String isbn) throws IOException {
+        BufferedImage irudia = ImageIO.read(new URL(url));
+        String path = isbn+".png";
+        Properties properties = Utils.lortuEzarpenak();
+        String imagePath = properties.getProperty("imagePath");
+        Files.createDirectories(Paths.get(imagePath));
+        File file = new File(imagePath+"/"+path);
+        ImageIO.write(irudia,"png",file);
+    }
+
+
+
+
     public List liburuenDatuenListaLortu(String isbn){
-        String query = "select izena,orriKop from Liburua where ISBN ='"+isbn+"'";
+        String query = "select izena,orriKop,irudiIzena from Liburua where ISBN ='"+isbn+"'";
         DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
         ResultSet rs = dbKudeatzaile.execSQL(query);
         List<String> lista = new ArrayList<>();
@@ -116,8 +145,10 @@ public class LiburuKud {
             while (rs.next()) {
                 String izena = rs.getString("izena");
                 int orriKop = rs.getInt("orriKop");
+                String irudiIzena = rs.getString("irudiIzena");
                 lista.add(izena);
                 lista.add(Integer.toString(orriKop));
+                lista.add(irudiIzena);
             }
         } catch(SQLException throwables){
             throwables.printStackTrace();

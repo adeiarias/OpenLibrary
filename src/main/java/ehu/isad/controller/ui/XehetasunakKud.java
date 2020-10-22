@@ -1,9 +1,10 @@
-package ehu.isad.ui;
+package ehu.isad.controller.ui;
 
 import ehu.isad.Book;
 import ehu.isad.Liburua;
-import ehu.isad.db.LiburuKud;
+import ehu.isad.controller.db.LiburuDataKud;
 import ehu.isad.utils.Sarea;
+import ehu.isad.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,9 +13,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -65,9 +67,14 @@ public class XehetasunakKud implements Initializable {
         izenburua.setText(izen);
         orriKop.setText(orri);
 
-        //LIBUAREN IRUDIAREN INPLEMENTAZIOA GERARAKO UTZIKO DA
-        /*Image irudi = sarea.createImage(book.getThumbnail_url());
-        irudia.setImage(irudi);*/
+        String irudiIzen = lista.get(2);
+        System.out.println(irudiIzen);
+        String imagePath = Utils.lortuEzarpenak().getProperty("imagePath")+"/"+irudiIzen;
+        try {
+            irudia.setImage(new Image(new FileInputStream(imagePath)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void argitaletxeakEguneratu(List<String> argitaletxeZerr){
@@ -83,12 +90,13 @@ public class XehetasunakKud implements Initializable {
     }
 
     public void datuakErakutsi(Book liburua) throws IOException {
-        if(!LiburuKud.getInstance().liburuaDago(liburua.getIsbn())) {//Liburua datu basean ez dago
+        if(!LiburuDataKud.getInstance().liburuaDago(liburua.getIsbn())) {//Liburua datu basean ez dago
             Book lib = Sarea.getNireSarea().liburuarenDatuakHasieratu(liburua.getIsbn());
-            LiburuKud.getInstance().liburuarenDatuSartuDB(lib, liburua.getIsbn());
+            LiburuDataKud.getInstance().liburuarenDatuSartuDB(lib, liburua.getIsbn());
         }
-        labelakEguneratu(LiburuKud.getInstance().liburuenDatuenListaLortu(liburua.getIsbn()));
-        argitaletxeakEguneratu(LiburuKud.getInstance().argitaletxeenZerrenda(liburua.getIsbn()));
+
+        labelakEguneratu(LiburuDataKud.getInstance().liburuenDatuenListaLortu(liburua.getIsbn()));
+        argitaletxeakEguneratu(LiburuDataKud.getInstance().argitaletxeenZerrenda(liburua.getIsbn()));
     }
 
 
